@@ -22,9 +22,9 @@
   "author": "hopansh",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hopansh/sceneit-lib/issues"
+    "url": "https://github.com/hopansh/sceneit/issues"
   },
-  "homepage": "https://github.com/hopansh/sceneit-lib#readme",
+  "homepage": "https://github.com/hopansh/sceneit#readme",
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.1",
