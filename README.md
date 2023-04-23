@@ -2,7 +2,7 @@
 
 A React component that simulates a website or web application at a specific resolution.
 
-\*Note: Component or app may simulate properly if vh or vw units are being used for styling
+\*Note: Component or app may not simulate properly if vh or vw units are being used for styling
 
 ## Installation
 
