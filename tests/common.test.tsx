@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { TextEncoder } from 'util';
+global.TextEncoder = TextEncoder;
+
 import { SceneitWrapper } from '../src';
 import { render } from '@testing-library/react';
 

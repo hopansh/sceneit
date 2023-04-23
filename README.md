@@ -2,6 +2,8 @@
 
 A React component that simulates a website or web application at a specific resolution.
 
+\*Note: Component or app may simulate properly if vh or vw units are being used for styling
+
 ## Installation
 
 To install the Sceneit, you can use npm or yarn:
@@ -40,4 +42,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
+
 ### MIT

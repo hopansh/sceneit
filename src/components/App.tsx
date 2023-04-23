@@ -1,53 +1,25 @@
-import React, { useState, useEffect, useRef, ReactElement, ChangeEvent } from 'react';
-import { TextEncoder } from 'util';
+import React, { useState, ReactNode, ChangeEvent } from 'react';
 import './index.css';
-
-global.TextEncoder = TextEncoder;
-import ReactDOMServer from 'react-dom/server';
-
 interface SceneitWrapperProps {
-  children: ReactElement;
+  children: ReactNode;
   width: number;
   height: number;
   hideResolutionCustomizer?: boolean;
-  className?: string;
 }
 
 const SceneitWrapper: React.FC<SceneitWrapperProps> = ({
   children,
-  width: widthRaw = 1920,
-  height: heightRaw = 1080,
-  hideResolutionCustomizer = false,
-  className = '',
+  width: widthRaw,
+  height: heightRaw,
+  hideResolutionCustomizer,
 }) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [error, setError] = useState<Error | null>(null);
   const [height, setHeight] = useState(heightRaw);
   const [width, setWidth] = useState(widthRaw);
-
-  useEffect(() => {
-    const iframeDoc = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
-    if (iframeDoc) {
-      iframeDoc.body.style.margin = '12px';
-      iframeDoc.body.style.padding = '0';
-      iframeDoc.body.style.overflow = 'hidden';
-      const clonedElement = React.cloneElement(children, {
-        style: { ...children.props.style, width: '100%', height: '100%', margin: 0, padding: 0 },
-      });
-      const container = iframeDoc.createElement('div');
-      container.innerHTML = ReactDOMServer.renderToString(clonedElement);
-      iframeDoc.body.appendChild(container.firstChild as Node);
-    }
-  }, []);
-
-  const scale = Math.min((window.innerWidth - 44) / width, (window.innerHeight - 62) / height);
-  const handleLoad = () => {
-    setError(null);
-  };
-
-  const handleError = () => {
-    setError(new Error('An error occurred while loading the iframe.'));
-  };
+  const USED_WIDTH = 28;
+  const USED_HEIGHT = 56;
+  const availableWidth = window.innerWidth - USED_WIDTH;
+  const availableHeight = window.innerHeight - USED_HEIGHT;
+  const scale = Math.min(availableWidth / width, availableHeight / height);
 
   const handleDimensionChange = (e: ChangeEvent<HTMLInputElement>, type: 'height' | 'width') => {
     if (e) {
@@ -58,7 +30,14 @@ const SceneitWrapper: React.FC<SceneitWrapperProps> = ({
   };
 
   return (
-    <div className={`sceneit-wrapper ${className}`}>
+    <div
+      className='wrapper'
+      style={{
+        height: '100vh',
+        width: '100vw',
+        padding: '12px',
+      }}
+    >
       {!hideResolutionCustomizer && (
         <div className='res-customizer'>
           <input
@@ -82,26 +61,19 @@ const SceneitWrapper: React.FC<SceneitWrapperProps> = ({
           />
         </div>
       )}
-      <iframe
-        title='Resolution Simulator'
-        ref={iframeRef}
-        width={width}
-        height={height}
+      <div
+        className='child'
         style={{
-          border: 'none',
+          height: height,
+          width: width,
           transformOrigin: '0 0',
           transform: `scale(${scale})`,
+          border: '2px solid black',
+          overflow: 'scroll',
         }}
-        onLoad={handleLoad}
-        onError={handleError}
-        className='sceneit-iframe'
-      />
-      {error && (
-        <div style={{ position: 'absolute', top: 0, left: 0, width, height, background: 'white' }}>
-          <p>Sorry, an error occurred:</p>
-          <pre>{error.message}</pre>
-        </div>
-      )}
+      >
+        {children}
+      </div>
     </div>
   );
 };
