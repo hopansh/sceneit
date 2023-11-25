@@ -1,7 +1,8 @@
-import React, { useState, ReactNode, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, ReactElement } from 'react';
 import './index.css';
+import Wrapper from './Wrapper';
 interface SceneitWrapperProps {
-  children: ReactNode;
+  children: ReactElement;
   width: number;
   height: number;
   hideResolutionCustomizer?: boolean;
@@ -61,8 +62,7 @@ const SceneitWrapper: React.FC<SceneitWrapperProps> = ({
           />
         </div>
       )}
-      <div
-        className='child'
+      <Wrapper
         style={{
           height: height,
           width: width,
@@ -73,7 +73,7 @@ const SceneitWrapper: React.FC<SceneitWrapperProps> = ({
         }}
       >
         {children}
-      </div>
+      </Wrapper>
     </div>
   );
 };
