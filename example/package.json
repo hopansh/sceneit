@@ -15,6 +15,6 @@
     "util": "^0.12.3"
   },
   "dependencies": {
-    "sceneit": "^1.1.1"
+    "sceneit": "^2.1.0"
   }
 }
